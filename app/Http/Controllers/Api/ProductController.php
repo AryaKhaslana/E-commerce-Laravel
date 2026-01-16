@@ -16,11 +16,8 @@ class ProductController extends Controller
     }
 
     // LIHAT DETAIL BARANG (Public)
-    public function show($id)
-    {
-        $product = Product::find($id);
-        if (!$product) return response()->json(['message' => 'Barang gaib alias gak ada.'], 404);
-        return response()->json($product);
+    public function show($id) {
+        // besok
     }
 
     // --- FITUR ADMIN DI BAWAH INI ---
