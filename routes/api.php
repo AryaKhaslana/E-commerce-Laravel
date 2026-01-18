@@ -16,6 +16,7 @@ Route::post('/cart', [CartController::class, 'store']);
 Route::get('/cart', [CartController::class, 'index']);
 Route::delete('/cart/{id}', [CartController::class, 'destroy']);
 Route::post('/checkout', [OrderController::class, 'checkout']);
+Route::get('/orders', [OrderController::class, 'index']);
 
 // Protected (Harus Login)
 Route::middleware('auth:sanctum')->group(function () {

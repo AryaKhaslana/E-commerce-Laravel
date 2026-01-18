@@ -2,6 +2,7 @@ import ProductDetail from './ProductDetail'
 import { Routes, Route } from 'react-router-dom';
 import HomePage from './HomePage';
 import CartPage from './CartPage';
+import OrderHistory from './OrderHistory';
 
 function App() {
   return (
@@ -14,6 +15,8 @@ function App() {
       <Route path="/product/:id" element={<ProductDetail />} />
 
       <Route path="/cart" element={<CartPage/>} />
+
+      <Route path='/history' element={<OrderHistory/>} />
      </Routes>
 
   );

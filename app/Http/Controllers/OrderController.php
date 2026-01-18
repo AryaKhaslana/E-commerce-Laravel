@@ -10,6 +10,16 @@ use App\Models\OrderItem;
 
 class OrderController extends Controller
 {
+
+    public function index() {
+        $orders = Order::where('user_id', 1)
+                    ->with('items.product')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+        
+        return response()->json($orders);  
+    }
+
     public function checkout() {
         return DB::transaction(function() {
 
