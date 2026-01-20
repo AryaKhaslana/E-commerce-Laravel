@@ -32,7 +32,7 @@ const Navbar = () => {
                 {token ? (
                     <>
                         {/* Kalo dia ADMIN, munculin tombol khusus */}
-                        {user && user.role === 'ADMIN' && (
+                        {user && user.role === 'admin' && (
                             <Link to="/admin" style={styles.linkAdmin}>Dashboard</Link>
                         )}
                         

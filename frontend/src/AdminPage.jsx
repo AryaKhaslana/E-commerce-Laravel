@@ -25,9 +25,11 @@ const AdminPage = () => {
         }
     };
 
+    console.log("CEK DATA USER:", user);
+
     // 1. CEK APAKAH DIA ADMIN?
     useEffect(() => {
-        if (!token || !user || user.role !== 'ADMIN') {
+        if (!token || !user || user.role !== 'admin') {
             alert("MAU NGAPAIN? LU BUKAN ADMIN! 👮‍♂️");
             navigate('/'); // Tendang ke Home
         } else {
