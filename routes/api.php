@@ -19,10 +19,13 @@ Route::post('/checkout', [OrderController::class, 'checkout']);
 Route::get('/orders', [OrderController::class, 'index']);
 
 // Protected (Harus Login)
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum', 'is_admin')->group(function () {
 Route::post('/logout', [AuthController::class, 'logout']);
 
 // User Order Action
+Route::post('/products', [ProductController::class, 'store']);
+Route::post('/products/{id}', [ProductController::class, 'update']);
+Route::post('/products/{id}', [ProductController::class, 'destroy']);
 Route::post('/orders/{id}/upload', [OrderController::class, 'uploadProof']); // Upload Bukti
 
 // Admin Actions
