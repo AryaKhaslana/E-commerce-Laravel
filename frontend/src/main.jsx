@@ -7,8 +7,6 @@ import { BrowserRouter } from 'react-router-dom'
 
 createRoot(document.getElementById('root')).render(
  <React.StrictMode>
-    <BrowserRouter> {/* <--- 2. BUNGKUS <App /> PAKE INI */}
-      <App />
-    </BrowserRouter>
+      <App />  
   </React.StrictMode>,
 )
