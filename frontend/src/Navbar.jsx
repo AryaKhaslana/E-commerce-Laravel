@@ -37,6 +37,16 @@ const Navbar = () => {
                         )}
                         
                         <Link to="/history" style={styles.link}>Riwayat</Link>
+
+                        <Link to="/cart" style={{ 
+                        color: 'white', 
+                        textDecoration: 'none', 
+                        background: '#333', 
+                        padding: '5px 10px', 
+                        borderRadius: '5px' 
+                        }}>
+                          Keranjang 🛒
+                        </Link>
                         
                         <button onClick={handleLogout} style={styles.btnLogout}>
                             Logout

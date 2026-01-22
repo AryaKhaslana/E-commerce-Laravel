@@ -2,6 +2,10 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Forms\Components\FileUpload; // Buat Upload Gambar
+use Filament\Forms\Components\RichEditor; // Buat Teks Editor Mewah
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Section;
 use Filament\Tables\Columns\TextColumn; // <--- Taruh di paling atas file
 use Filament\Tables\Columns\ImageColumn;
 use App\Filament\Resources\ProductResource\Pages;
@@ -20,7 +24,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class ProductResource extends Resource
 {
     protected static ?string $navigationGroup = 'Shop Management';
-    
+
     protected static ?string $model = Product::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -29,7 +33,47 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                //
+            // Kita bungkus pake Section biar ada kotaknya
+            Section::make('Informasi Produk')
+                ->description('Isi detail barang dagangan lu di sini.')
+                ->schema([
+                    
+                    TextInput::make('name')
+                        ->label('Nama Produk')
+                        ->required()
+                        ->maxLength(255),
+
+                    TextInput::make('price')
+                        ->label('Harga')
+                        ->numeric()
+                        ->prefix('Rp') // Ada tulisan Rp di depannya
+                        ->required(),
+
+                    TextInput::make('stock')
+                        ->label('Stok')
+                        ->numeric()
+                        ->default(10)
+                        ->required(),
+
+                    // INI DIA BINTANGNYA ⭐
+                    RichEditor::make('description')
+                        ->label('Deskripsi')
+                        ->toolbarButtons([
+                            'bold', 'italic', 'bulletList', 'orderedList', 'link', 'h2', 'h3'
+                        ])
+                        ->columnSpanFull(), // Biar lebar full ke samping
+                ])->columns(2), // Bagi jadi 2 kolom
+
+            Section::make('Gambar Produk')
+                ->schema([
+                    // FITUR UPLOAD GAMBAR 📸
+                    FileUpload::make('image_url') 
+                        ->label('Foto Produk')
+                        ->image() // Validasi harus gambar
+                        ->directory('products') // Disimpen di folder storage/app/public/products
+                        ->visibility('public') // Biar bisa diakses publik
+                        ->required(),
+                ]),
             ]);
     }
 
@@ -40,7 +84,7 @@ class ProductResource extends Resource
                 TextColumn::make('name')->sortable()->searchable(),
                 TextColumn::make('price')->money('IDR')->sortable(),
                 TextColumn::make('stock')->sortable(),
-                ImageColumn::make('image_url')->label('Gambar'),
+                ImageColumn::make('image_url')->label('Gambar')->square(),
             ])
             ->filters([
                 //

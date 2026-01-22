@@ -10,5 +10,5 @@ class Product extends Model
     use HasFactory;
     
     // HAPUS "_" DI BELAKANG IMAGE !!
-    protected $fillable = ['name', 'price', 'stock', 'description', 'image']; 
+    protected $fillable = ['name', 'price', 'stock', 'description', 'image_url']; 
 }
