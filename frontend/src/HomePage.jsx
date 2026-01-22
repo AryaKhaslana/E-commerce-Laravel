@@ -11,15 +11,40 @@ export default function HomePage() {
       .catch(error => console.error(error));
   }, []);
 
-  const getImageUrl = (imageName) => {
+  const addToCart = async (productId) => {
+    try {
+        // Ambil token dari localStorage (kalo user udah login)
+        const token = localStorage.getItem('token'); 
+
+        if (!token) {
+            alert("Eits, Login dulu bos!");
+            return;
+        }
+
+        await axios.post('http://127.0.0.1:8000/api/cart', {
+            product_id: productId,
+            quantity: 1
+        }, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+
+        alert("Berhasil masuk keranjang! 🛒");
+        
+    } catch (error) {
+        console.error(error);
+        alert("Gagal nambahin barang. Stok abis kali?");
+    }
+};
+
+  const getImageUrl = (imagePath) => {
     // 1. Kalo gak ada gambar, kasih gambar placeholder (abu-abu)
-    if (!imageName) return 'https://placehold.co/150';
+    if (!imagePath) return 'https://placehold.co/150';
     
     // 2. Kalo gambarnya link online (https://...) biarin aja (Produk Seeding)
-    if (imageName.startsWith('http')) return imageName;
+    if (imagePath.startsWith('http')) return imagePath;
     
     // 3. Kalo ini hasil upload, gabungin sama link Laravel Storage
-    return `http://127.0.0.1:8000/storage/${imageName}`;
+    return `http://127.0.0.1:8000/storage/${imagePath}`;
 };
 
   return (
@@ -28,7 +53,7 @@ export default function HomePage() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
         {products?.data?.map(item => (
           <div key={item.id} style={{ border: '1px solid #ddd', padding: '15px' }}>
-            <img src={getImageUrl(item.image)} alt={item.name} style={{ width: '100%', height: '150px', objectFit: 'cover' }} />
+            <img src={getImageUrl(item.image_url)} alt={item.name} style={{ width: '100%', height: '150px', objectFit: 'cover' }} />
             <h3>{item.name}</h3>
             <p>Rp {item.price}</p>
             
@@ -38,6 +63,22 @@ export default function HomePage() {
                     Lihat Detail 👉
                 </button>
             </Link>
+            <button 
+        onClick={() => addToCart(item.id)} // Nanti kita bikin fungsinya
+        style={{ 
+            background: '#22c55e', // Warna Hijau
+            color: 'white', 
+            padding: '8px 15px', 
+            borderRadius: '5px',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px'
+        }}
+    >
+        <span>+ Keranjang</span> 🛒
+    </button>
           </div>
         ))}
       </div>
